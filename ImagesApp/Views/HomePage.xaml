@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="ImagesApp.Views.HomePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:model="clr-namespace:ImagesApp.Models"
+    xmlns:vm="clr-namespace:ImagesApp.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Name="homepg"
+    Title="Home"
+    ios:Page.UseSafeArea="true"
+    x:DataType="vm:HomeViewModel">
+    <ContentPage.Content>
+        <StackLayout Padding="15" Spacing="3">
+            <Button Command="{Binding SelectImagesCommand}" Text="Add Images" />
+            <CollectionView Margin="5,10,5,5" ItemsSource="{Binding ImagesCollection}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        HorizontalItemSpacing="1"
+                        Orientation="Vertical"
+                        Span="3"
+                        VerticalItemSpacing="1" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:ImageData">
+                        <Frame
+                            Padding="0"
+                            xct:TouchEffect.LongPressCommand="{Binding Source={x:Reference homepg}, Path=BindingContext.RemoveImageCommand}"
+                            xct:TouchEffect.LongPressCommandParameter="{Binding .}"
+                            xct:TouchEffect.LongPressDuration="450"
+                            xct:TouchEffect.NormalAnimationDuration="400"
+                            xct:TouchEffect.NormalOpacity="1"
+                            xct:TouchEffect.NormalScale="1"
+                            xct:TouchEffect.PressedAnimationDuration="400"
+                            xct:TouchEffect.PressedOpacity=".7"
+                            xct:TouchEffect.PressedScale=".8"
+                            BackgroundColor="WhiteSmoke"
+                            CornerRadius="5"
+                            HasShadow="False"
+                            HeightRequest="150">
+                            <Image Aspect="AspectFill" Source="{Binding ImageUrl}" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <StackLayout>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="25"
+                            HorizontalOptions="CenterAndExpand"
+                            Text="No Images Picked...¯\_(ツ)_/¯"
+                            TextColor="Black"
+                            VerticalOptions="CenterAndExpand" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+            <Button Command="{Binding RemoveAllImagesCommand}" Text="Remove All" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
